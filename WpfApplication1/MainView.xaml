@@ -67,6 +67,7 @@
                 <Label Content="Available Sessions"
                        Margin="10,0,0,0"/>
                 <ComboBox ItemsSource="{Binding SessionsAvailable}"
+                          SelectedItem="{Binding SelectedSession}"
                           Width="200"
                           HorizontalAlignment="Left"
                          Margin="10,2,10,0"/>

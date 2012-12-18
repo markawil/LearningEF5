@@ -21,6 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 		SolutionIsControlled = True
 	EndGlobalSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{7089F161-F0F2-4999-9A52-6B9848051D7C}"
+	GlobalSection(PureCMSourceControlProviderSolutionProperties) = preSolution
+		SolutionIsControlled = True
+	EndGlobalSection
+EndProject
 Global
 	GlobalSection(PureCMSourceControlProviderSolutionProperties) = preSolution
 		SolutionIsControlled = True
@@ -74,6 +79,16 @@ Global
 		{CAE111E6-2387-424F-B0A7-FD0E619735D6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CAE111E6-2387-424F-B0A7-FD0E619735D6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CAE111E6-2387-424F-B0A7-FD0E619735D6}.Release|x86.ActiveCfg = Release|Any CPU
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Debug|x86.ActiveCfg = Debug|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Debug|x86.Build.0 = Debug|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Release|Any CPU.ActiveCfg = Release|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Release|x86.ActiveCfg = Release|x86
+		{7089F161-F0F2-4999-9A52-6B9848051D7C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

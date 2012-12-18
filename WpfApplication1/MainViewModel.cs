@@ -1,4 +1,8 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using Caliburn.Micro;
 using Domain;
 using LearningEF5.DataLayer;
 
@@ -6,11 +10,11 @@ namespace WpfApplication1
 {
    public class MainViewModel : PropertyChangedBase, IMainViewModel
    {
-      private BindableCollection<string> _persons;
-      private BindableCollection<string> _selectedPersonSessions;
-      private BindableCollection<string> _sessionsAvailable;
-      private BindableCollection<string> _jobTitles;
-      private string _selectedJobTitle;
+      private BindableCollection<Person> _persons;
+      private BindableCollection<Session> _selectedPersonSessions;
+      private BindableCollection<Session> _sessionsAvailable;
+      private IEnumerable<EJobTitle> _jobTitles;
+      private EJobTitle _selectedJobTitle;
       private string _name;
       private string _sessionName;
       private bool _isWorkshop;
@@ -19,7 +23,9 @@ namespace WpfApplication1
       private readonly IRepository<Person> _personRepository;
       private readonly IRepository<Session> _sessionRepository;
       private readonly IRepository<Workshop> _workshopRepository;
- 
+      private Person _selectedPerson;
+      private Session _selectedSession;
+
       public MainViewModel(IRepository<Person> personRepository,
          IRepository<Session> sessionRepository,
          IRepository<Workshop> workshopRepository)
@@ -30,31 +36,47 @@ namespace WpfApplication1
          _name = "Enter name here";
       }
 
-      public BindableCollection<string> Persons
+      public BindableCollection<Person> Persons
       {
          get { return _persons; }
          set { _persons = value; }
       }
 
-      public BindableCollection<string> SelectedPersonSessions
+      public Person SelectedPerson
+      {
+         get { return _selectedPerson; }
+         set { _selectedPerson = value; }
+      }
+
+      public BindableCollection<Session> SelectedPersonSessions
       {
          get { return _selectedPersonSessions; }
          set { _selectedPersonSessions = value; }
       }
 
-      public BindableCollection<string> SessionsAvailable
+      public BindableCollection<Session> SessionsAvailable
       {
          get { return _sessionsAvailable; }
          set { _sessionsAvailable = value; }
       }
 
-      public BindableCollection<string> JobTitles
+      public Session SelectedSession
       {
-         get { return _jobTitles; }
+         get { return _selectedSession; }
+         set { _selectedSession = value; }
+      }
+
+      public IEnumerable<EJobTitle> JobTitles
+      {
+         get
+         {
+            return Enum.GetValues(typeof(EJobTitle))
+             .Cast<EJobTitle>();
+         }
          set { _jobTitles = value; }
       }
 
-      public string SelectedJobTitle
+      public EJobTitle SelectedJobTitle
       {
          get { return _selectedJobTitle; }
          set { _selectedJobTitle = value; }
@@ -77,17 +99,53 @@ namespace WpfApplication1
          get { return _isWorkshop; }
          set { _isWorkshop = value; }
       }
-   }
 
-   public interface IMainViewModel
-   {
-      BindableCollection<string> Persons { get; set; }
-      BindableCollection<string> SelectedPersonSessions { get; set; }
-      BindableCollection<string> SessionsAvailable { get; set; }
-      BindableCollection<string> JobTitles { get; set; }
-      string SelectedJobTitle { get; set; }
-      string Name { get; set; }
-      string SessionName { get; set; }
-      bool IsWorkshop { get; set; }
+      public void AddSessionOrWorkshop()
+      {
+         Session newSession;
+
+         if (_isWorkshop)
+         {
+            newSession = new Workshop
+                            {
+                               Title = _sessionName
+                            };
+         }
+         else
+         {
+            newSession = new Session()
+                            {
+                               Title = _sessionName
+                            };
+         }
+
+         _sessionRepository.Save(newSession);
+         SessionsAvailable.Add(newSession);
+
+         MessageBox.Show("Session saved!");
+      }
+
+      public void AddPerson()
+      {
+         if (_selectedSession == null)
+         {
+            MessageBox.Show("Select a session to start with.");
+            return;
+         }
+
+         var sessions = new List<Session>();
+         sessions.Add(_selectedSession);
+         
+         var newPerson = new Person
+                            {
+                               JobTitle = _selectedJobTitle,
+                               Name = _name,
+                               Sessions = sessions
+                            };
+
+         newPerson.Id = _personRepository.Save(newPerson);
+         Persons.Add(newPerson);
+         MessageBox.Show("new person saved!");
+      }
    }
 }

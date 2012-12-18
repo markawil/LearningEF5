@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="CastleBootstrapper.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IMainViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
