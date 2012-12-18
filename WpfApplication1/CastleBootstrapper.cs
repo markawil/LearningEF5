@@ -27,7 +27,7 @@ namespace WpfApplication1
          _container.Register(Component.For<IRepository<Person>>().ImplementedBy<Repository<Person>>());
          _container.Register(Component.For<IRepository<Session>>().ImplementedBy<Repository<Session>>());
          _container.Register(Component.For<IRepository<Workshop>>().ImplementedBy<Repository<Workshop>>());
-
+         
          _container.AddFacility<TypedFactoryFacility>();
          _container.Register(AllTypes.FromAssembly(typeof(MainViewModel).Assembly)
             .Where(x => x.Name.EndsWith("ViewModel") || x.Name.EndsWith("View"))

@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using Domain;
 
 namespace LearningEF5.DataLayer
 {
    public class Repository<T> : IDisposable, IRepository<T> where T : class, IEntity
    {
-      private readonly ConferencesContext<T> _context = new ConferencesContext<T>();
- 
+      private readonly DbContext _context = new ConferencesContext();
+
       public void Delete(int id)
       {
-         T t = _context.Set.Find(id);
-         _context.Set.Remove(t);
+         T t = _context.Set<T>().Find(id);
+
+         _context.Set<T>().Remove(t);
          _context.SaveChanges();
       }
 
@@ -29,7 +31,7 @@ namespace LearningEF5.DataLayer
 
       public IEnumerable<T> GetAll()
       {
-         return _context.Set;
+         return _context.Set<T>();
       }
 
       public int Save(T t)
@@ -42,7 +44,6 @@ namespace LearningEF5.DataLayer
          _context.SaveChanges();
          return t.Id;
       }
-
 
       public void Dispose()
       {
