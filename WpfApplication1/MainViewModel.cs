@@ -127,25 +127,25 @@ namespace WpfApplication1
 
       public void AddPerson()
       {
-         if (_selectedSession == null)
-         {
-            MessageBox.Show("Select a session to start with.");
-            return;
-         }
-
-         var sessions = new List<Session>();
-         sessions.Add(_selectedSession);
-         
-         var newPerson = new Person
-                            {
-                               JobTitle = _selectedJobTitle,
-                               Name = _name,
-                               Sessions = sessions
-                            };
-
-         newPerson.Id = _personRepository.Save(newPerson);
-         Persons.Add(newPerson);
-         MessageBox.Show("new person saved!");
+//         if (_selectedSession == null)
+//         {
+//            MessageBox.Show("Select a session to start with.");
+//            return;
+//         }
+//
+//         var sessions = new List<Session>();
+//         sessions.Add(_selectedSession);
+//         
+//         var newPerson = new Person
+//                            {
+//                               JobTitle = _selectedJobTitle,
+//                               Name = _name,
+//                               Sessions = sessions
+//                            };
+//
+//         newPerson.Id = _personRepository.Save(newPerson);
+//         Persons.Add(newPerson);
+//         MessageBox.Show("new person saved!");
       }
    }
 }

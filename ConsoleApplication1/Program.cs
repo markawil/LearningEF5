@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Domain;
 using LearningEF5.DataLayer;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace ConsoleApplication1
 {
@@ -15,9 +17,11 @@ namespace ConsoleApplication1
 
       static void Main(string[] args)
       {
-         _personRepo = new Repository<Person>();
-         _sessionRepo = new Repository<Session>();
-         _workshopRepo = new Repository<Workshop>();
+         Database.SetInitializer(new DropCreateDatabaseAlways<ConferencesContext>());
+
+         _personRepo = new PersonRepository();
+         _sessionRepo = new SessionRepository();
+         _workshopRepo = new WorkshopRepository();
 
          AddSessions();
          AddPerson();
@@ -26,19 +30,31 @@ namespace ConsoleApplication1
 
       private static void AddPerson()
       {
-         var sessionsForPerson = new List<Session>();
-
-         var session1 = _sessionRepo.Retrieve(1);
-         var session2 = _sessionRepo.Retrieve(2);
-         sessionsForPerson.Add(session1);
-         sessionsForPerson.Add(session2);
 
          var newPerson = new Person
                             {
                                JobTitle = EJobTitle.SoftwareDeveloper,
                                Name = "Mark Wilkinson",
-                               Sessions = sessionsForPerson
                             };
+
+         var sessionsForPerson = new List<PersonSession>();
+
+         var session1 = _sessionRepo.Retrieve(1);
+         var session2 = _sessionRepo.Retrieve(2);
+
+         sessionsForPerson.Add(new PersonSession
+                                  {
+                                     Session = session1,
+                                     Person = newPerson,
+                                  });
+
+         sessionsForPerson.Add(new PersonSession
+                                  {
+                                     Session = session2,
+                                     Person = newPerson,
+                                  });
+
+         newPerson.Sessions = sessionsForPerson;
 
          _personRepo.Save(newPerson);
          Console.WriteLine("Saved new person!");
@@ -74,15 +90,17 @@ namespace ConsoleApplication1
 
       private static void OutPutPersonAndSessions()
       {
-         var person = _personRepo.Retrieve(0);
+         var person = _personRepo.Retrieve(1);
          var sessions = person.Sessions;
 
          Console.WriteLine("Person was: {0}", person.Name);
 
-         foreach (var session in sessions)
+         foreach (var personSession in sessions)
          {
-            Console.WriteLine(session.Title);
+            Console.WriteLine(personSession.Session.Title);
          }
+
+         Console.ReadKey();
       }
    }
 }

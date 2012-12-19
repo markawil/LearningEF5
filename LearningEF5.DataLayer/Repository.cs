@@ -6,11 +6,11 @@ using Domain;
 
 namespace LearningEF5.DataLayer
 {
-   public class Repository<T> : IDisposable, IRepository<T> where T : class, IEntity
+   public abstract class Repository<T> : IDisposable, IRepository<T> where T : class, IEntity
    {
-      private readonly DbContext _context = new ConferencesContext();
+      protected readonly DbContext _context = new ConferencesContext();
 
-      public void Delete(int id)
+      public virtual void Delete(int id)
       {
          T t = _context.Set<T>().Find(id);
 
@@ -18,23 +18,23 @@ namespace LearningEF5.DataLayer
          _context.SaveChanges();
       }
 
-      public bool Exists(int id)
+      public virtual bool Exists(int id)
       {
          var t = _context.Set<T>().Find(id);
          return t != null;
       }
 
-      public T Retrieve(int id)
+      public virtual T Retrieve(int id)
       {
          return _context.Set<T>().Find(id);
       }
 
-      public IEnumerable<T> GetAll()
+      public virtual IEnumerable<T> GetAll()
       {
          return _context.Set<T>();
       }
 
-      public int Save(T t)
+      public virtual int Save(T t)
       {
          if (t.Id == 0)
             _context.Entry(t).State = EntityState.Added;
