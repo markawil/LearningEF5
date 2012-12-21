@@ -7,7 +7,6 @@ namespace Domain
 {
    public class Person : IEntity
    {
-      [Key]
       public int Id { get; set; }
       public string Name { get; set; }
       public EJobTitle JobTitle { get; set; }
