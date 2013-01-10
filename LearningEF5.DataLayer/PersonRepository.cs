@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using Domain;
 
 namespace LearningEF5.DataLayer
@@ -7,6 +9,12 @@ namespace LearningEF5.DataLayer
    {
       public override int Save(Person person)
       {
+         DbEntityValidationResult validationResult = _context.Entry(person).GetValidationResult();
+         if (validationResult.IsValid == false)
+         {
+            Debugger.Break();
+         }
+            
          if (person.Id == 0)
          {
             _context.Entry(person).State = EntityState.Added;

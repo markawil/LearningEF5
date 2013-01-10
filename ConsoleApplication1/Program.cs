@@ -56,6 +56,7 @@ namespace ConsoleApplication1
 
          newPerson.Sessions = sessionsForPerson;
 
+
          _personRepo.Save(newPerson);
          Console.WriteLine("Saved new person!");
       }

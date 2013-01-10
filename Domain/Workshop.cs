@@ -2,9 +2,8 @@
 
 namespace Domain
 {
-   public class Workshop : Session, IEntity
+   public class Workshop : Session
    {
-      public int Id { get; set; }
       public string Description { get; set; }
 
       public override string ToString()

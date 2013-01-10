@@ -1,4 +1,7 @@
-﻿namespace Domain
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain
 {
    public class PersonSession : IEntity
    {
