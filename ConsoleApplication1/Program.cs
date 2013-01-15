@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Domain;
 using LearningEF5.DataLayer;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 
 namespace ConsoleApplication1
 {
@@ -34,7 +32,7 @@ namespace ConsoleApplication1
          var newPerson = new Person
                             {
                                JobTitle = EJobTitle.SoftwareDeveloper,
-                               Name = "Mark Wilkinson",
+                               Name = "Mark W",
                             };
 
          var sessionsForPerson = new List<PersonSession>();
@@ -88,7 +86,7 @@ namespace ConsoleApplication1
 
          Console.WriteLine("Saved new sessions!");
       }
-
+      
       private static void OutPutPersonAndSessions()
       {
          var person = _personRepo.Retrieve(1);
@@ -99,6 +97,15 @@ namespace ConsoleApplication1
          foreach (var personSession in sessions)
          {
             Console.WriteLine(personSession.Session.Title);
+         }
+
+         Console.WriteLine("Sessions available:");
+
+         var sessionsAvailable = _sessionRepo.GetAll().ToList();
+
+         foreach (var session in sessionsAvailable)
+         {
+            Console.WriteLine(session.Title);
          }
 
          Console.ReadKey();
