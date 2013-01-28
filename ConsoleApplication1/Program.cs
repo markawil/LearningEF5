@@ -22,11 +22,50 @@ namespace ConsoleApplication1
          _workshopRepo = new WorkshopRepository();
 
          AddSessions();
-         AddPerson();
+         AddSWDev();
+         AddDBAdmin();
          OutPutPersonAndSessions();
+         PrettyPrintPersonDetails();
       }
 
-      private static void AddPerson()
+      private static void PrettyPrintPersonDetails()
+      {
+         Console.WriteLine("-------------------------------\r\n");
+         var persons = _personRepo.GetAll();
+
+         foreach (var person in persons)
+         {
+            Console.WriteLine("Person was: {0}", person.Name);
+            Console.WriteLine("Their job title was: {0}", person.JobTitle);
+         }
+
+         Console.ReadKey();
+      }
+
+      private static void AddDBAdmin()
+      {
+         var newPerson = new Person
+         {
+            JobTitle = EJobTitle.DataBaseAdmin,
+            Name = "Masroor M",
+         };
+
+         var sessionsForPerson = new List<PersonSession>();
+
+         var session1 = _sessionRepo.Retrieve(2);
+
+         sessionsForPerson.Add(new PersonSession
+                                  {
+                                     Session = session1,
+                                     Person = newPerson
+                                  });
+
+         newPerson.Sessions = sessionsForPerson;
+         _personRepo.Save(newPerson);
+         Console.WriteLine("Saved a DB Admin!");
+      }
+
+      private static void AddSWDev()
       {
 
          var newPerson = new Person
@@ -56,7 +95,7 @@ namespace ConsoleApplication1
 
 
          _personRepo.Save(newPerson);
-         Console.WriteLine("Saved new person!");
+         Console.WriteLine("Saved a Software Dev!");
       }
 
       private static void AddSessions()
@@ -107,8 +146,6 @@ namespace ConsoleApplication1
          {
             Console.WriteLine(session.Title);
          }
-
-         Console.ReadKey();
       }
    }
 }

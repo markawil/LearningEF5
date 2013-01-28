@@ -2,8 +2,8 @@
 {
    public enum EJobTitle
    {
-      SoftwareDeveloper,
-      DataBaseAdmin,
-      SharepointAdmin
+      SoftwareDeveloper = 0,
+      DataBaseAdmin = 1,
+      SharepointAdmin = 2,
    }
 }
