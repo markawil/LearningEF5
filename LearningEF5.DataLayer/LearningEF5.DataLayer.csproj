@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConferencesContext.cs" />
+    <Compile Include="GenderRepository.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="IPersonRepository.cs" />
     <Compile Include="IRepository.cs" />

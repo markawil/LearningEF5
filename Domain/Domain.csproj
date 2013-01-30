@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EJobTitle.cs" />
+    <Compile Include="Gender.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="PersonSession.cs" />

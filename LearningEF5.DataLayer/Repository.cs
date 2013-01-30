@@ -8,7 +8,12 @@ namespace LearningEF5.DataLayer
 {
    public abstract class Repository<T> : IDisposable, IRepository<T> where T : class, IEntity
    {
-      protected readonly DbContext _context = new ConferencesContext();
+      protected readonly DbContext _context;
+
+      protected Repository(DbContext context)
+      {
+         _context = context;
+      }
 
       public virtual void Delete(int id)
       {

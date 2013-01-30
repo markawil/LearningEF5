@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -9,8 +8,8 @@ namespace Domain
       public int Id { get; set; }
       [MaxLength(10)]
       public string Name { get; set; }
-      public EJobTitle JobTitle { get; set; }
-      public List<PersonSession> Sessions { get; set; }
+      public virtual GenderType Gender { get; set; }
+      public virtual List<PersonSession> Sessions { get; set; }
 
       public override string ToString()
       {

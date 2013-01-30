@@ -12,21 +12,57 @@ namespace ConsoleApplication1
       private static IRepository<Person> _personRepo;
       private static IRepository<Session> _sessionRepo;
       private static IRepository<Workshop> _workshopRepo;
-
+      private static IRepository<GenderType> _genderRepo;
+      private static ConferencesContext _context;
+ 
       static void Main(string[] args)
+      {
+         viewExistingData();
+         //runInitProgram();
+      }
+
+      private static void viewExistingData()
+      {
+         initRepos();
+
+         PrettyPrintPersonDetails();
+      }
+
+      private static void initRepos()
+      {
+         _context = new ConferencesContext();
+         _genderRepo = new GenderRepository(_context);
+         _personRepo = new PersonRepository(_context);
+         _sessionRepo = new SessionRepository(_context);
+         _workshopRepo = new WorkshopRepository(_context);
+      }
+
+      private static void runInitProgram()
       {
          Database.SetInitializer(new DropCreateDatabaseAlways<ConferencesContext>());
 
-         _personRepo = new PersonRepository();
-         _sessionRepo = new SessionRepository();
-         _workshopRepo = new WorkshopRepository();
+         initRepos();
 
+         AddGenders();
          AddSessions();
          AddSWDev();
+         AddFemaleSWDev();
          AddDBAdmin();
          OutPutPersonAndSessions();
          PrettyPrintPersonDetails();
       }
+
+      private static void AddGenders()
+      {
+         var male = new GenderType();
+         male.Description = "Male";
+         var female = new GenderType();
+         female.Description = "Female";
+
+         _genderRepo.Save(male);
+         _genderRepo.Save(female);
+      }
+
 
       private static void PrettyPrintPersonDetails()
       {
@@ -35,8 +71,12 @@ namespace ConsoleApplication1
 
          foreach (var person in persons)
          {
-            Console.WriteLine("Person was: {0}", person.Name);
-            Console.WriteLine("Their job title was: {0}", person.JobTitle);
+           // Console.WriteLine("Person was: {0}, Gender was {1}", person.Name, person.Gender.Description);
+            Console.WriteLine("Person was {0}", person.Name);
+            foreach (var session in person.Sessions)
+            {
+               Console.WriteLine("Session: {0}", session.Session.Title);
+            }
          }
 
          Console.ReadKey();
@@ -44,10 +84,11 @@ namespace ConsoleApplication1
 
       private static void AddDBAdmin()
       {
+         GenderType gender = _genderRepo.GetAll().SingleOrDefault(d => d.Description == "Male");
          var newPerson = new Person
          {
-            JobTitle = EJobTitle.DataBaseAdmin,
-            Name = "Masroor M",
+            Name = "Bob B",
+            Gender = gender
          };
 
          var sessionsForPerson = new List<PersonSession>();
@@ -65,13 +106,45 @@ namespace ConsoleApplication1
          Console.WriteLine("Saved a DB Admin!");
       }
 
+      private static void AddFemaleSWDev()
+      {
+         GenderType gender = _genderRepo.GetAll().SingleOrDefault(d => d.Description == "Female");
+         var newPerson = new Person
+         {
+            Name = "Sally C",
+            Gender = gender
+         };
+
+         var sessionsForPerson = new List<PersonSession>();
+
+         var session1 = _sessionRepo.Retrieve(1);
+         var session2 = _sessionRepo.Retrieve(2);
+
+         sessionsForPerson.Add(new PersonSession
+         {
+            Session = session1,
+            Person = newPerson,
+         });
+
+         sessionsForPerson.Add(new PersonSession
+         {
+            Session = session2,
+            Person = newPerson,
+         });
+
+         newPerson.Sessions = sessionsForPerson;
+
+         _personRepo.Save(newPerson);
+         Console.WriteLine("Saved a Software Dev!");
+      }
+
       private static void AddSWDev()
       {
-
+         GenderType gender = _genderRepo.GetAll().SingleOrDefault(d => d.Description == "Male");
          var newPerson = new Person
                             {
-                               JobTitle = EJobTitle.SoftwareDeveloper,
                                Name = "Mark W",
+                               Gender = gender
                             };
 
          var sessionsForPerson = new List<PersonSession>();
